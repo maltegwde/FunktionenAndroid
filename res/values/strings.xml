@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Funktionen</string>
+    <string name="function">f(x)=x²+y</string>
+    <string name="potenz">Potenz ändern</string>
+    <string name="parameter">Parameter vor x ändern</string>
+    <string name="yAchse">Y-Achsenabschnitt ändern</string>
+    <string name="ok">Werte übernehmen</string>
+    <string name="weiter">Weiter</string>
+    <string name="xwerte">X-Werte</string>
+    <string name="ywerte">Y-Werte</string>
+    <string name="no_wert">Kein Wert</string>
+    <string name="back">Zurück</string>
+    <string name="quadFunk">Quadratische Funkt.</string>
+    <string name="minWert">Anfangswert</string>
+    <string name="maxWert">Endwert</string>
+</resources>
