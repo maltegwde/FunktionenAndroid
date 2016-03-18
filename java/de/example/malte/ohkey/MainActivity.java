@@ -16,7 +16,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    int para, pot, yA;
+    int para, pot, x, i;
+    double yA;
     public boolean quadF = true;
 
     @Override
@@ -56,6 +57,14 @@ public class MainActivity extends AppCompatActivity {
         EditText etPara = (EditText) findViewById(R.id.etPara);
         EditText etPot = (EditText) findViewById(R.id.etPot);
         EditText etyA = (EditText) findViewById(R.id.etyA);
+        EditText et_max = (EditText)findViewById(R.id.et_max);
+
+        if (et_max.length() == 0) {
+            x = 100;
+        }   else    {
+            x = Integer.parseInt(et_max.getText().toString());
+            x++;
+        }
 
         if (etPara.length() == 0) {
             para = 1;
@@ -78,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         if (etyA.length() == 0) {
             yA = 0;
         } else {
-            yA = Integer.parseInt(etyA.getText().toString());
+            yA = Double.parseDouble(etyA.getText().toString());
             if (quadF == true) {
                 tv1.setText("f(x)=" + para + "x" + "**" + pot + " + " + yA);
             } else {
@@ -91,34 +100,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void bt1weiterClick(View v) {
-        EditText et_max = (EditText)findViewById(R.id.et_max);
-
-        int x;
-        int i;
-        if (et_max.length() == 0) {
-            x = 100;
-        }   else    {
-            x = Integer.parseInt(et_max.getText().toString());
-            x++;
-        }
-        Integer xWerte[] = new Integer[x];
-
-        for(i = 0; i < x; i++) {
-            xWerte[i] = i;
-        }
-
         setContentView(R.layout.werte);
-
-        ListAdapter myAda = new ArrayAdapter<Integer>(this, android.R.layout.simple_list_item_1, xWerte);
-        ListView mylv = (ListView)findViewById(R.id.listView1);
-        mylv.setAdapter(myAda);
 
         TextView tvFct = (TextView) findViewById(R.id.tvFct);
 
-        //int xwert = 1;
-        //double y = (para * Math.pow(y, pot)) + yA;
+        Integer xWerte[] = new Integer[x];
+        Double yWerte[] = new Double[x];
+        String werte[] = new String[x];
 
-        //String yAs = Double.toString(yA);
+        for (i = 0; i < x; i++) {
+            xWerte[i] = i;
+            if (i == 0) {
+                yWerte[i] = yA;
+            }   else {
+                yWerte[i] = (para * Math.pow(i, pot) + yA);
+            }
+            werte[i] = xWerte[i].toString() + "      " + yWerte[i].toString();
+        }
+
+        ListAdapter myAda = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, werte);
+        ListView mylv = (ListView)findViewById(R.id.listView1);
+        mylv.setAdapter(myAda);
 
         tvFct.setText("f(x)=" + para + "x" + "**" + pot + " + " + yA);
     }
