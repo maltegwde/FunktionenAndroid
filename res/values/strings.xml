@@ -11,6 +11,5 @@
     <string name="no_wert">Kein Wert</string>
     <string name="back">Zurück</string>
     <string name="quadFunk">Quadratische Funkt.</string>
-    <string name="minWert">Anfangswert</string>
-    <string name="maxWert">Endwert</string>
+    <string name="maxWert">Wertebereich von 0 - ...</string>
 </resources>
