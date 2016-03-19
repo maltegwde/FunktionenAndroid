@@ -1,9 +1,14 @@
 package de.example.malte.ohkey;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
@@ -16,7 +21,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    int para, pot, x, i;
+    int para, pot, x = 101, i = 0;
     double yA;
     public boolean quadF = true;
 
@@ -52,43 +57,63 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    protected void showInputDialog() {
+        LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
+        View promptView = layoutInflater.inflate(R.layout.dialog_werte, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilder.setView(promptView);
+
+        final EditText etmax = (EditText) promptView.findViewById(R.id.et_max_dl);
+        alertDialogBuilder.setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        x = Integer.parseInt(etmax.getText().toString());
+                        x++;
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
     public void bt1Click(View v) {
         TextView tv1 = (TextView) findViewById(R.id.tv1);
         EditText etPara = (EditText) findViewById(R.id.etPara);
         EditText etPot = (EditText) findViewById(R.id.etPot);
         EditText etyA = (EditText) findViewById(R.id.etyA);
-        EditText et_max = (EditText)findViewById(R.id.et_max);
 
-        if (et_max.length() == 0) {
-            x = 100;
-        }   else    {
-            x = Integer.parseInt(et_max.getText().toString());
-            x++;
-        }
-
-        if (etPara.length() == 0) {
+        if (etPara.getText().toString().isEmpty()) {
             para = 1;
         } else {
             para = Integer.parseInt(etPara.getText().toString());
-            if (quadF == true) {
+            if (quadF) {
                 tv1.setText("f(x)=" + para + "x" + "**" + pot + " + " + yA);
             } else {
                 tv1.setText("f(x)=" + para + "x" + " + " + yA);
             }
         }
 
-        if (etPot.length() == 0) {
-            pot = 2;
+        if (etPot.getText().toString().isEmpty()) {
+            if (quadF)  {
+                pot = 2;
+            }   else {
+                pot = 1;
+            }
         } else {
             pot = Integer.parseInt(etPot.getText().toString());
             tv1.setText("f(x)=" + para + "x" + "**" + pot + " + " + yA);
         }
 
-        if (etyA.length() == 0) {
+        if (etyA.getText().toString().isEmpty()) {
             yA = 0;
         } else {
             yA = Double.parseDouble(etyA.getText().toString());
-            if (quadF == true) {
+            if (quadF) {
                 tv1.setText("f(x)=" + para + "x" + "**" + pot + " + " + yA);
             } else {
                 tv1.setText("f(x)=" + para + "x" + " + " + yA);
@@ -96,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Toast toast = Toast.makeText(getApplicationContext(), "Werte übernommen!", Toast.LENGTH_SHORT);
+        toast.show();
 
     }
 
@@ -108,14 +134,14 @@ public class MainActivity extends AppCompatActivity {
         Double yWerte[] = new Double[x];
         String werte[] = new String[x];
 
-        for (i = 0; i < x; i++) {
+        for(i = 0; i < x; i++) {
             xWerte[i] = i;
             if (i == 0) {
                 yWerte[i] = yA;
             }   else {
                 yWerte[i] = (para * Math.pow(i, pot) + yA);
             }
-            werte[i] = xWerte[i].toString() + "      " + yWerte[i].toString();
+            werte[i] = "                        " + xWerte[i].toString() + "                      " + yWerte[i].toString();
         }
 
         ListAdapter myAda = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, werte);
@@ -142,16 +168,38 @@ public class MainActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(getApplicationContext(), "Quadratische Funktion aktiviert", Toast.LENGTH_SHORT);
                     toast.show();
                     tv1.setText("f(x)=" + para + "x" + "**" + pot + " + " + yA);
-                    etPot.setClickable(true);
+                    etPot.setVisibility(View.VISIBLE);
                 } else {
                     quadF = false;
                     pot = 1;
                     Toast toast = Toast.makeText(getApplicationContext(), "Quadratische Funktion deaktiviert", Toast.LENGTH_SHORT);
                     toast.show();
                     tv1.setText("f(x)=" + para + "x" + " + " + yA);
-                    etPot.setClickable(false);
+                    etPot.setVisibility(View.INVISIBLE);
                 }
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.settingsMenu:
+                return true;
+            case R.id.wertebereichMenu:
+                showInputDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 }
