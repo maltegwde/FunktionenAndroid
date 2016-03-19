@@ -1,7 +1,6 @@
 package de.example.malte.ohkey;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,17 +20,17 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    int para, pot, x = 101, i = 0;
-    double yA;
+    Double para, pot, yA;
+    int i = 0, x = 101;
     public boolean quadF = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        para = 1;
-        pot = 2;
-        yA = 0;
+        para = 1.0;
+        pot = 2.0;
+        yA = 0.0;
 
         Switch qswitch = (Switch) findViewById(R.id.quadSwitch);
         qswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -40,14 +39,14 @@ public class MainActivity extends AppCompatActivity {
                 EditText etPot = (EditText) findViewById(R.id.etPot);
                 if (isChecked) {
                     quadF = true;
-                    pot = 2;
+                    pot = 2.0;
                     Toast toast = Toast.makeText(getApplicationContext(), "Quadratische Funktion aktiviert", Toast.LENGTH_SHORT);
                     toast.show();
                     tv1.setText("f(x)=" + para + "x" + "**" + pot + " + " + yA);
                     etPot.setVisibility(View.VISIBLE);
                 } else {
                     quadF = false;
-                    pot = 1;
+                    pot = 1.0;
                     Toast toast = Toast.makeText(getApplicationContext(), "Quadratische Funktion deaktiviert", Toast.LENGTH_SHORT);
                     toast.show();
                     tv1.setText("f(x)=" + para + "x" + " + " + yA);
@@ -87,10 +86,10 @@ public class MainActivity extends AppCompatActivity {
         EditText etPot = (EditText) findViewById(R.id.etPot);
         EditText etyA = (EditText) findViewById(R.id.etyA);
 
-        if (etPara.getText().toString().isEmpty()) {
-            para = 1;
+        if (etPara.getText().toString().isEmpty() || etPara.getText().toString().equals(0) ) {
+            para = 1.0;
         } else {
-            para = Integer.parseInt(etPara.getText().toString());
+            para = Double.parseDouble(etPara.getText().toString());
             if (quadF) {
                 tv1.setText("f(x)=" + para + "x" + "**" + pot + " + " + yA);
             } else {
@@ -98,19 +97,19 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if (etPot.getText().toString().isEmpty()) {
+        if (etPot.getText().toString().isEmpty() || etPot.getText().toString().equals(0)) {
             if (quadF)  {
-                pot = 2;
+                pot = 2.0;
             }   else {
-                pot = 1;
+                pot = 1.0;
             }
         } else {
-            pot = Integer.parseInt(etPot.getText().toString());
+            pot = Double.parseDouble(etPot.getText().toString());
             tv1.setText("f(x)=" + para + "x" + "**" + pot + " + " + yA);
         }
 
-        if (etyA.getText().toString().isEmpty()) {
-            yA = 0;
+        if (etyA.getText().toString().isEmpty() || etyA.getText().toString().equals(0)) {
+            yA = 0.0;
         } else {
             yA = Double.parseDouble(etyA.getText().toString());
             if (quadF) {
@@ -141,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             }   else {
                 yWerte[i] = (para * Math.pow(i, pot) + yA);
             }
-            werte[i] = "                        " + xWerte[i].toString() + "                      " + yWerte[i].toString();
+            werte[i] = "             " + xWerte[i].toString() + "              " + yWerte[i].toString();
         }
 
         ListAdapter myAda = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, werte);
@@ -164,14 +163,14 @@ public class MainActivity extends AppCompatActivity {
                 EditText etPot = (EditText) findViewById(R.id.etPot);
                 if (isChecked) {
                     quadF = true;
-                    pot = 2;
+                    pot = 2.0;
                     Toast toast = Toast.makeText(getApplicationContext(), "Quadratische Funktion aktiviert", Toast.LENGTH_SHORT);
                     toast.show();
                     tv1.setText("f(x)=" + para + "x" + "**" + pot + " + " + yA);
                     etPot.setVisibility(View.VISIBLE);
                 } else {
                     quadF = false;
-                    pot = 1;
+                    pot = 1.0;
                     Toast toast = Toast.makeText(getApplicationContext(), "Quadratische Funktion deaktiviert", Toast.LENGTH_SHORT);
                     toast.show();
                     tv1.setText("f(x)=" + para + "x" + " + " + yA);
@@ -200,6 +199,4 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 }
