@@ -14,7 +14,7 @@
         android:textStyle="bold"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="100dp" />
+        android:layout_marginLeft="50dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,8 +26,8 @@
         android:layout_alignTop="@+id/tv_x"
         android:layout_toRightOf="@+id/tv_x"
         android:layout_toEndOf="@+id/tv_x"
-        android:layout_marginLeft="46dp"
-        android:layout_marginStart="46dp" />
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp" />
 
     <TextView
         android:layout_width="wrap_content"

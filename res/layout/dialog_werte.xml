@@ -6,15 +6,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/et_min_dl"
-        android:hint="@string/minWert" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
+        android:inputType="numberDecimal|numberSigned"
         android:ems="10"
         android:id="@+id/et_max_dl"
         android:hint="@string/maxWert" />
