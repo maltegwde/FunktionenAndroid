@@ -21,7 +21,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     Double para, pot, yA;
-    int i = 0, x = 101;
+    int i = 0, x = 101, c = 0;
     public boolean quadF = true;
 
     @Override
@@ -62,12 +62,20 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         alertDialogBuilder.setView(promptView);
 
+        final EditText etmin = (EditText) promptView.findViewById(R.id.et_min_dl);
         final EditText etmax = (EditText) promptView.findViewById(R.id.et_max_dl);
         alertDialogBuilder.setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         x = Integer.parseInt(etmax.getText().toString());
                         x++;
+                        c = Integer.parseInt(etmin.getText().toString());
+                        if (x < c) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Der Anfangswert muss kleiner als der Endwert sein.", Toast.LENGTH_SHORT);
+                            toast.show();
+                            x = 201;
+                            c = 0;
+                        }
                     }
                 })
                 .setNegativeButton("Cancel",
@@ -129,18 +137,15 @@ public class MainActivity extends AppCompatActivity {
 
         TextView tvFct = (TextView) findViewById(R.id.tvFct);
 
-        Integer xWerte[] = new Integer[x];
-        Double yWerte[] = new Double[x];
-        String werte[] = new String[x];
+        Integer xWerte[] = new Integer[x+Math.abs(c)];
+        Double yWerte[] = new Double[x+Math.abs(c)];
+        String werte[] = new String[x+Math.abs(c)];
 
-        for(i = 0; i < x; i++) {
-            xWerte[i] = i;
-            if (i == 0) {
-                yWerte[i] = yA;
-            }   else {
-                yWerte[i] = (para * Math.pow(i, pot) + yA);
-            }
-            werte[i] = "             " + xWerte[i].toString() + "              " + yWerte[i].toString();
+        for(i = 0; c < x; i++) {
+            xWerte[i] = c;
+            yWerte[i] = (para * Math.pow(c, pot) + yA);
+            werte[i] = "         " + xWerte[i].toString() + "              " + yWerte[i].toString();
+            c++;
         }
 
         ListAdapter myAda = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, werte);
