@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         x = Integer.parseInt(etmax.getText().toString());
                         x++;
                         c = Integer.parseInt(etmin.getText().toString());
-                        if (x < c) {
+                        if (x <= c) {
                             Toast toast = Toast.makeText(getApplicationContext(), "Der Anfangswert muss kleiner als der Endwert sein.", Toast.LENGTH_SHORT);
                             toast.show();
                             x = 201;
@@ -137,31 +137,64 @@ public class MainActivity extends AppCompatActivity {
 
         TextView tvFct = (TextView) findViewById(R.id.tvFct);
 
-        Integer xWerte[] = new Integer[x+Math.abs(c)];
-        Double yWerte[] = new Double[x+Math.abs(c)];
-        String werte[] = new String[x+Math.abs(c)];
+        if (c > 0)  {
+            Integer xWertec[] = new Integer[x - Math.abs(c)];
+            Double yWertec[] = new Double[x - Math.abs(c)];
+            String wertec[] = new String[x - Math.abs(c)];
 
-        for(i = 0; c < x; i++) {
-            xWerte[i] = c;
-            yWerte[i] = (para * Math.pow(c, pot) + yA);
-            werte[i] = "         " + xWerte[i].toString() + "              " + yWerte[i].toString();
-            c++;
+            for(i = 0; c < x; i++) {
+                xWertec[i] = c;
+                yWertec[i] = (para * Math.pow(c, pot) + yA);
+                wertec[i] = "         " + xWertec[i].toString() + "              " + yWertec[i].toString();
+                c++;
+            }
+
+            ListAdapter myAda = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, wertec);
+            ListView mylv = (ListView)findViewById(R.id.listView1);
+            mylv.setAdapter(myAda);
+        }   else {
+            Integer xWerte[] = new Integer[x + Math.abs(c)];
+            Double yWerte[] = new Double[x + Math.abs(c)];
+            String werte[] = new String[x + Math.abs(c)];
+
+            for(i = 0; c < x; i++) {
+                xWerte[i] = c;
+                yWerte[i] = (para * Math.pow(c, pot) + yA);
+                werte[i] = "         " + xWerte[i].toString() + "              " + yWerte[i].toString();
+                c++;
+            }
+
+            ListAdapter myAda = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, werte);
+            ListView mylv = (ListView) findViewById(R.id.listView1);
+            mylv.setAdapter(myAda);
         }
-
-        ListAdapter myAda = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, werte);
-        ListView mylv = (ListView)findViewById(R.id.listView1);
-        mylv.setAdapter(myAda);
-
-        tvFct.setText("f(x)=" + para + "x" + "**" + pot + " + " + yA);
+        if (quadF) {
+            tvFct.setText("f(x)=" + para + "x" + "**" + pot + " + " + yA);
+        }   else    {
+            tvFct.setText("f(x)=" + para + "x" + " + " + yA);
+        }
     }
 
     public void back_Click(View v) {
         setContentView(R.layout.activity_main);
+
         TextView tv1 = (TextView) findViewById(R.id.tv1);
+        EditText etPot = (EditText)findViewById(R.id.etPot);
+        Switch qswitch = (Switch) findViewById(R.id.quadSwitch);
+
+        x = 101;
+        c = 0;
+        i = 0;
 
         tv1.setText("f(x)=" + para + "x" + "**" + pot + " + " + yA);
 
-        Switch qswitch = (Switch) findViewById(R.id.quadSwitch);
+        if (quadF == false) {
+            tv1.setText("f(x)=" + para + "x" + " + " + yA);
+            etPot.setVisibility(View.INVISIBLE);
+            qswitch.setChecked(false);
+        }
+
+
         qswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 TextView tv1 = (TextView) findViewById(R.id.tv1);
